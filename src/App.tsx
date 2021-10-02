@@ -1,7 +1,8 @@
-import { Button } from 'carbon-components-react';
+import React from "react";
+import Navigation from "./navigation/navigation";
 function App() {
     return (
-        <div><Button>CONTENTS</Button></div>
+        <Navigation />
     );
 }
 
