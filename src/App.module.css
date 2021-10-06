@@ -1,0 +1,12 @@
+.content {
+    flex-grow: 1;
+    height: 100vh;
+    overflow: auto;
+}
+.appBarSpacer {
+    margin-top: 3rem;
+}
+
+.root {
+    display: flex;
+}
