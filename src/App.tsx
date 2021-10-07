@@ -1,27 +1,11 @@
-import { BrowserRouter as Router, Switch, Route, RouteComponentProps } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ROUTES } from './config/constants';
-import css from './App.module.css'
 import { HeaderToolbar } from './components';
-import { IRoute } from './interfaces/navigation';
+import css from './App.module.css';
+import './App.sass'
+
 function App() {
-
-
-    // console.log(flatten(ROUTES))
-    // const flatten = (items: IRoute[]) => {
-    //     const flat: IRoute[] = [];
-
-    //     items && items.forEach(item => {
-    //         flat.push(item)
-    //         if (Array.isArray(item.subRoute) && item.subRoute.length > 0) {
-    //             flat.push(...flatten(item.subRoute));
-    //             delete item.subRoute
-    //         }
-    //         delete item.subRoute
-    //     });
-
-    //     return flat;
-    // }
-    // console.log(flatten(ROUTES))
+    debugger;
     return (
         <div className={css.root}>
             <Router>
@@ -29,15 +13,35 @@ function App() {
                     <HeaderToolbar />
                     <div className={css.appBarSpacer} />
                     <Switch>
-                        {ROUTES.map((route) =>
-                            <Route
-                                key={route.id}
-                                path={route.path}
-                                exact={route.exact}
-                                render={(props: RouteComponentProps<any>) => (
-                                    <route.component {...props} {...route.props} />
-                                )}
-                            />
+                        {ROUTES.map(({ id,
+                            path,
+                            exact,
+                            component: Component,
+                            subRoute }) =>
+                            !subRoute ?
+                                <Route
+                                    key={id}
+                                    path={path}
+                                    exact={exact}
+                                >
+                                    {<Component />}
+                                </Route> :
+                                <Route
+                                    key={id}
+                                    path={path}
+                                >
+                                    <Switch key={id}>
+                                        {subRoute.map(({ id: sId,
+                                            path: sPath,
+                                            component: SComponent }) =>
+                                            <Route
+                                                key={sId}
+                                                path={sPath}
+                                            >
+                                                {<SComponent />}
+                                            </Route>)}
+                                    </Switch>
+                                </Route>
                         )}
                     </Switch>
                 </main>

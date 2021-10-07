@@ -21,21 +21,32 @@ import {
     HeaderSideNavItems
 } from 'carbon-components-react';
 
+import css from './HeaderToolbar.module.css'
+
 import { ROUTES } from '../../config/constants';
+import {
+    Link as RouterLink,
+    LinkProps as RouterLinkProps,
+    useLocation
+} from 'react-router-dom';
+
+const ILink = (to: string) => React.forwardRef<any, Omit<RouterLinkProps, "to">>(
+    (itemProps, ref) => <RouterLink to={to} ref={ref} {...itemProps} />
+)
 
 const HeaderToolbar: React.FC = () => {
-    {/* <Link to="/">Home</Link> */ }
-    const routes = ROUTES.map(({ id, path, name, subRoute }) =>
-        subRoute ?
+    const location = useLocation();
+    console.log(location.pathname);
+    const routes = ROUTES.map(({ id, path, name, subRoute, hiddenMenu }) =>
+        !hiddenMenu && (subRoute ?
             <HeaderMenu key={id} aria-label={name} menuLinkName={name}>
                 {subRoute.map((sub) =>
-                    <HeaderMenuItem key={sub.id} href={sub.path}>{sub.name}</HeaderMenuItem>
+                    !sub.hiddenMenu && <HeaderMenuItem key={sub.id} href={sub.path} element={ILink(sub.path)} className={sub.path === location.pathname ? css.active : ''}>{sub.name}</HeaderMenuItem>
                 )}
             </HeaderMenu>
             :
-            <HeaderMenuItem key={id} aria-label={name} href={path} children={name} />
+            <HeaderMenuItem key={id} aria-label={name} href={path} children={name} element={ILink(path)} className={path === location.pathname ? css.active : ''} />)
     )
-    console.log(routes)
     return (
         <HeaderContainer
             render={({ isSideNavExpanded, onClickSideNavExpand }) => (
@@ -46,7 +57,7 @@ const HeaderToolbar: React.FC = () => {
                         onClick={onClickSideNavExpand}
                         isActive={isSideNavExpanded}
                     />
-                    <HeaderName href="#" prefix="CONTENT">
+                    <HeaderName prefix="CONTENT" href="/">
                         [Manager]
                     </HeaderName>
                     <HeaderNavigation aria-label="CONTENT [Manager]">

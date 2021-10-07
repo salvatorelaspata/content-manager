@@ -1,7 +1,7 @@
 import { IRoute } from '../interfaces/navigation';
 import { Home, ToDo, Doc, NotFound, SnapCode, ProjecTile, Drive } from '../pages';
 
-export var ROUTES: IRoute[] = [{
+export const ROUTES: IRoute[] = [{
     id: '242a75cb-aa7f-460e-8aa3-dc7fcbf64718',
     path: '/',
     name: 'Home',
@@ -42,6 +42,38 @@ export var ROUTES: IRoute[] = [{
     id: '0945392f-c830-47be-b3cb-08815436b56b',
     path: '*',
     name: '404',
-    exact: false,
-    component: NotFound
-}]
+    exact: true,
+    component: NotFound,
+    hiddenMenu: true
+}];
+const flatten = (items: IRoute[]) => {
+    const flat: IRoute[] = [];
+
+    items && items.forEach(item => {
+        flat.push(item)
+        if (Array.isArray(item.subRoute) && item.subRoute.length > 0) {
+            flat.push(...flatten(item.subRoute));
+            delete item.subRoute
+        }
+        delete item.subRoute
+    });
+
+    return flat;
+}
+
+export const flattenRoutes = () => {
+    const routes: IRoute[] = JSON.parse(JSON.stringify(ROUTES));
+    const flat: IRoute[] = [];
+    routes && routes.forEach(item => {
+        flat.push(item)
+        if (Array.isArray(item.subRoute) && item.subRoute.length > 0) {
+            flat.push(...flatten(item.subRoute));
+            delete item.subRoute
+        }
+        delete item.subRoute
+    });
+    return flat;
+}
+
+export const allRouter: IRoute[] = JSON.parse(JSON.stringify(ROUTES));
+// export const flattenRoutes: IRoute[] = [...flatten([...ROUTES])]

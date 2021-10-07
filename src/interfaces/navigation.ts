@@ -1,10 +1,15 @@
 export interface IRoute {
-    id: string,
-    name: string,
-    path: string,
-    exact: boolean,
+    id: string
+    name: string
+    path: string
+    exact: boolean
     component: React.FC
+    hiddenMenu?: boolean
     subRoute?: IRoute[]
-    icon?: string,
+    icon?: string
     props?: any
+}
+
+export interface INavigationProp {
+    section: string
 }
