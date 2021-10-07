@@ -2,10 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ROUTES } from './config/constants';
 import { HeaderToolbar } from './components';
 import css from './App.module.css';
-import './App.sass'
 
 function App() {
-    debugger;
     return (
         <div className={css.root}>
             <Router>
