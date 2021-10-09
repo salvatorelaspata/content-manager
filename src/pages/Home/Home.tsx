@@ -1,20 +1,20 @@
-import { DataTable, Table, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow } from 'carbon-components-react';
+import { DataTable, DataTableCell, DataTableCustomRenderProps, DataTableHeader, DataTableRow, DenormalizedRow, Table, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow } from 'carbon-components-react';
 import React from 'react';
 import css from './Home.module.css';
 import { headerData, rowData } from './sampleData';
-// import { headerData, rowData } from './sampleData.';
+
 interface HomeProp { }
 
 const Home: React.FC<HomeProp> = () => {
     return (
         <div className={css.root}>
             <DataTable rows={rowData} headers={headerData} isSortable >
-                {({ rows, headers, getHeaderProps, getTableProps }: any) => (
+                {({ rows, headers, getHeaderProps, getTableProps }: DataTableCustomRenderProps) => (
                     <TableContainer title="DataTable">
                         <Table {...getTableProps()}>
                             <TableHead>
                                 <TableRow>
-                                    {headers.map((header: any) => (
+                                    {headers.map((header: DataTableHeader) => (
                                         <TableHeader {...getHeaderProps({ header })}>
                                             {header.header}
                                         </TableHeader>
@@ -22,9 +22,9 @@ const Home: React.FC<HomeProp> = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row: any) => (
+                                {rows.map((row: DenormalizedRow) => (
                                     <TableRow key={row.id}>
-                                        {row.cells.map((cell: any) => (
+                                        {row.cells.map((cell: DataTableCell) => (
                                             <TableCell key={cell.id}>{cell.value}</TableCell>
                                         ))}
                                     </TableRow>

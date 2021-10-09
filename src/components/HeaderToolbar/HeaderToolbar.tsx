@@ -18,7 +18,8 @@ import {
     HeaderMenuButton,
     SideNav,
     SideNavItems,
-    HeaderSideNavItems
+    HeaderSideNavItems,
+    Toggle
 } from 'carbon-components-react';
 
 import css from './HeaderToolbar.module.css'
@@ -33,10 +34,12 @@ import {
 const ILink = (to: string) => React.forwardRef<any, Omit<RouterLinkProps, "to">>(
     (itemProps, ref) => <RouterLink to={to} ref={ref} {...itemProps} />
 )
+interface HeaderToolbarProp {
+    toggleTheme: () => void
+}
+const HeaderToolbar: React.FC<HeaderToolbarProp> = ({ toggleTheme }) => {
 
-const HeaderToolbar: React.FC = () => {
     const location = useLocation();
-    console.log(location.pathname);
     const routes = ROUTES.map(({ id, path, name, subRoute, hiddenMenu }) =>
         !hiddenMenu && (subRoute ?
             <HeaderMenu key={id} aria-label={name} menuLinkName={name}>
@@ -74,6 +77,7 @@ const HeaderToolbar: React.FC = () => {
                         </SideNavItems>
                     </SideNav>
                     <HeaderGlobalBar>
+                        <Toggle defaultToggled id="165ffccf-7d3b-4483-b997-3796bcaf44f1" labelA="Light" labelB="Dark" onToggle={toggleTheme} />
                         <HeaderGlobalAction aria-label="Search" onClick={() => { }}>
                             <Search20 />
                         </HeaderGlobalAction>

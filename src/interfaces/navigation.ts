@@ -3,7 +3,7 @@ export interface IRoute {
     name: string
     path: string
     exact: boolean
-    component: React.FC
+    component: React.FC | string
     hiddenMenu?: boolean
     subRoute?: IRoute[]
     icon?: string
